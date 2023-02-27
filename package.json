@@ -1,0 +1,30 @@
+{
+  "name": "todo-list",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack serve --open",
+    "watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Humaminho/todo-list.git"
+  },
+  "keywords": [],
+  "author": "Humam Kharbouch",
+  "license": "Apache License 2.0",
+  "bugs": {
+    "url": "https://github.com/Humaminho/todo-list/issues"
+  },
+  "homepage": "https://github.com/Humaminho/todo-list#readme",
+  "devDependencies": {
+    "css-loader": "^6.7.3",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
+  }
+}

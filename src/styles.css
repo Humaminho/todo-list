@@ -4,11 +4,12 @@
   --border: rgb(41, 41, 41);
   --light-red: rgb(235, 100, 100);
   --red: rgb(200, 0, 0);
-  --light-grey: rgb(128, 128, 128);
+  --light-gray: rgb(96, 96, 96);
   --light: rgb(231, 231, 231);
   --white: rgb(255, 255, 255);
   --border-radius: 20px;
 }
+
 ::selection {
   background-color: var(--white);
   color: var(--red);
@@ -33,14 +34,13 @@ body {
 main {
   display: flex;
   height: 100%;
-  padding: 1rem;
+  padding: 1.5rem;
   gap: 1.5rem;
 }
 header {
   font-weight: bold;
   font-size: 2rem;
   padding: 1rem;
-  color: var(--red);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,10 +53,7 @@ header {
   transition: all 0.2s ease-in;
 }
 #content:hover , #github:hover, #left-content:hover {
-  border-color: var(--light-red);
-}
-#left-content:hover #khit {
-  background-color: var(--light-red);
+  border-color: var(--light-gray);
 }
 nav {
   height: 100%;
@@ -73,13 +70,15 @@ nav {
   font-weight: bold;
 }
 #khit {
-  width: calc(100% + 2rem);
-  position: relative;
-  left: -1rem;
+  width: 5px;
   height: 1px;
-  background-color: var(--border);
-
+  background-color: var(--main);
+  align-self: center;
   transition: all .2s ease-in;
+}
+#left-content:hover #khit {
+  background-color: var(--light-gray);
+  width: calc(100% + 2rem);
 }
 .nav-section {
   display: flex;
@@ -98,7 +97,7 @@ nav {
   gap: 1rem;
 
   font-size: 1.1rem;
-  border: 1px solid var(--light-grey);
+  border: 1px solid var(--light-gray);
   border-radius: 15px;
   padding: 0.6rem 1rem;
 
@@ -122,6 +121,7 @@ nav {
 #add {
   align-self: center;
   margin: .8rem;
+  
 }
 #add:hover {
   color: var(--light-red);
@@ -129,6 +129,7 @@ nav {
 }
 #delete {
   margin-left: auto;
+  transition: all .1s ease-in;
 }
 #delete:hover {
   color: var(--red);

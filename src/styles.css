@@ -41,6 +41,9 @@ header {
   font-size: 2rem;
   padding: 1rem;
   color: var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 #left-content, #github, #content {
   background-color: var(--main);
@@ -49,8 +52,11 @@ header {
   padding: 1rem;
   transition: all 0.2s ease-in;
 }
-#left-content:hover, #github:hover, #content:hover {
+#content:hover , #github:hover, #left-content:hover {
   border-color: var(--light-red);
+}
+#left-content:hover #khit {
+  background-color: var(--light-red);
 }
 nav {
   height: 100%;
@@ -67,9 +73,13 @@ nav {
   font-weight: bold;
 }
 #khit {
-  width: 100%;
+  width: calc(100% + 2rem);
+  position: relative;
+  left: -1rem;
   height: 1px;
   background-color: var(--border);
+
+  transition: all .2s ease-in;
 }
 .nav-section {
   display: flex;
@@ -79,6 +89,7 @@ nav {
 .nav-title {
   font-size: 1.5rem;
   color: var(--white);
+  margin-bottom: 1rem;
 }
 .section {
   display: flex;

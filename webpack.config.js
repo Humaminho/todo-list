@@ -6,7 +6,6 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
-    clean: true,
     assetModuleFilename: 'assets/[hash][ext][query]',
   },
   

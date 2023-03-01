@@ -7,7 +7,17 @@
   --light-gray: rgb(96, 96, 96);
   --light: rgb(231, 231, 231);
   --white: rgb(255, 255, 255);
-  --border-radius: 20px;
+  --border-radius: 35px;
+  --low: rgb(57, 255, 84);
+  --low-hover: rgb(57, 255, 84, 0.2);
+  --medium: rgb(255, 245, 100);
+  --medium-hover: rgb(255, 245, 100, 0.2);
+  --high: rgb(235, 100, 100);
+  --high-hover: rgb(1235, 100, 100, 0.2);
+}
+@font-face {
+  font-family: Futuristic;
+  src: url(components/my-components/fonts/Elemental\ End.ttf);
 }
 
 ::selection {
@@ -18,6 +28,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: Futuristic, Verdana, Geneva, Tahoma, sans-serif;
 }
 html {
   height: 100%;
@@ -29,7 +40,6 @@ body {
   background-color: var(--background);
   color: var(--light);
   font-size: 16px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 main {
   display: flex;
@@ -96,9 +106,8 @@ nav {
   align-items: center;
   gap: 1rem;
 
-  font-size: 1.1rem;
   border: 1px solid var(--light-gray);
-  border-radius: 15px;
+  border-radius: 50px;
   padding: 0.6rem 1rem;
 
   transition: all 0.2s ease-in;
@@ -118,26 +127,123 @@ nav {
   color: var(--main);
   border-color: var(--white);
 }
-#add {
+#add-project {
   align-self: center;
   margin: .8rem;
-  
-}
-#add:hover {
   color: var(--light-red);
+  transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+  order: 69;
+}
+#add-project:hover {
+  transform: rotate(180deg);
   cursor: pointer;
 }
-#delete {
+#delete-project {
   margin-left: auto;
   transition: all .1s ease-in;
 }
-#delete:hover {
-  color: var(--red);
+#delete-project:hover {
+  color: var(--light-red);
   cursor: pointer;
 }
-
-
 #content {
   height: 100%;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding: 1rem 1.5rem;
+}
+svg {
+  transition: all 0.2s;
+}
+.content-title {
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin: .3rem 1rem;
+}
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  padding: .6rem .7rem;
+  width: 100%;
+  border-radius: 50px;
+  background-color: rgb(22, 22, 22);
+
+  color: var(--light);
+  transition: all 0.2s ease-in;
+}
+.task:hover {
+  color: var(--white);
+  background-color: var(--background);
+}
+.check {
+  height: 25px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid;
+  transition: all .1s ease-in;
+}
+.check:hover {
+  background-color: rgb(128, 128, 128);
+  cursor: pointer;
+}
+.low {
+  border-color: var(--low);
+}
+.low:hover {
+  background-color: var(--low-hover);
+}
+.medium {
+  border-color: var(--medium);
+}
+.medium:hover {
+  background-color: var(--medium-hover);
+}
+.high {
+  border-color: var(--high);
+}
+.high:hover {
+  background-color: var(--high-hover);
+}
+.task-title {
+  flex-grow: 1;
+}
+.remove-tast {
+  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.remove-task:hover {
+  transform: rotate(180deg);
+  color: var(--light-red);
+  cursor: pointer;
+}
+.task-info:hover {
+  color: var(--low);
+  cursor: pointer; 
+}
+#add-task {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  gap: 1rem;
+  padding: .6rem 2rem;
+  background-color: transparent;
+  border: 2px solid var(--light-red);
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--light-red);
+  order: 69;
+
+  transition: all 0.2s ease-in;
+}
+#add-task:hover {
+  background-color: var(--light-red);
+  color: var(--white);
+  cursor: pointer;
 }

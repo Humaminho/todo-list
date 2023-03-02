@@ -32,6 +32,7 @@ function renderProjects(projectsArray) { // RENDER PROJECTS
     const projectEl = document.createElement('div');
     projectEl.classList.add('project');
     projectEl.classList.add('section');
+    projectEl.dataset.index = i;
     projectEl.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
       <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z"/>

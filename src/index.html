@@ -65,7 +65,7 @@
         <div id="tasks"> <!-- ALL TASKS -->
       
         </div>
-        <button id="add-task"> <!-- ADD TASK BUTTON -->
+        <button class="button "id="add-task"> <!-- ADD TASK BUTTON -->
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
@@ -74,8 +74,25 @@
         </button>
       </div>
       <div id="task-form">
-        <input type="text" placeholder="Take out trash...">
+        <label for="title">Title</label>
+        <input id="title" type="text" placeholder="Take out trash...">
+        <label for="title">Description</label>
         <textarea name="" id="" cols="30" rows="4" placeholder="Description..."></textarea>
+        <label for="title">Priority</label>
+        <div id="checklist">
+          <input type="checkbox" class="checkbox" name="low" id="low-priority">
+          <input type="checkbox" class="checkbox" name="medium" id="medium-priority">
+          <input type="checkbox" class="checkbox" name="high" id="high">
+        </div>
+        <label for="due-date">Due date</label>
+        <input type="date" name="due-date" id="due-date">
+        <button class="button" id="submit-task"> <!-- ADD TASK BUTTON -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+          </svg>
+          <p>Add a new task</p>
+        </button>
       </div>
     </div>
   </main>

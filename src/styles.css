@@ -167,6 +167,11 @@ nav {
   gap: .5rem;
   padding: 1rem 1.5rem;
 }
+#tasks {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
 .hidden {
   opacity: 0;
   visibility: hidden;

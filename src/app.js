@@ -88,4 +88,39 @@ function addProjectSelectionEvent() {
   }
 };
 
+function swapSections() {
+  const taskContent = document.getElementById('content');
+  const taskForm = document.getElementById('task-form');
+
+  taskContent.classList.toggle('hidden');
+  taskForm.classList.toggle('hidden');
+}
+
+const addTaskBtn = document.getElementById('add-task');
+addTaskBtn.addEventListener('click', swapSections);
+
+function submitTask() {
+  const taskTitle = document.getElementById('task-title').value;
+  const taskDescription = document.getElementById('task-description').value;
+  const taskDueDate = document.getElementById('task-due-date').value;
+  const radioBtns = document.querySelectorAll('input[type="radio"]');
+  let taskPriority = '';
+  for (let i = 0; i < radioBtns.length; i++) {
+    if (radioBtns[i].checked) {
+      taskPriority = radioBtns[i].value;
+    }
+  }
+  if (taskTitle === '' || taskDescription === '' || taskDueDate === '' || taskPriority === '') {
+    alert('Please fill all fields');
+    return;
+  }
+  const task = new Task(taskTitle, taskDescription, taskDueDate, taskPriority, currentProject);
+  allTasks.push(task);
+  //currentProject.tasks.push(task);
+  swapSections();
+}
+
+const submitTaskBtn = document.getElementById('submit-task');
+submitTaskBtn.addEventListener('click', submitTask);
+
 addProjectSelectionEvent();

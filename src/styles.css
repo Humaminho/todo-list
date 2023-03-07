@@ -167,8 +167,9 @@ nav {
   gap: .5rem;
   padding: 1rem 1.5rem;
 }
-.poof {
+.hidden {
   opacity: 0;
+  visibility: hidden;
 }
 svg {
   transition: all 0.2s;
@@ -274,13 +275,14 @@ svg {
   grid-template-rows: repeat(4, auto) 1fr;
   align-items: start;
   gap: 1rem;
-  padding: 1rem 1.5rem;
+  padding: 2rem;
 }
-label {
+#task-form > label {
+  padding: .5rem;
   font-size: 1.2rem;
   font-weight: bold;
 }
-input:not(.checkbox) {
+input:not(.radio) {
   padding: .7rem;
   width: 100%;
   border: none;
@@ -302,11 +304,22 @@ textarea {
   color: var(--light);
   transition: all 0.2s ease-in;
 }
-#checklist { /*CHANGE*/
+#task-priority { /*CHANGE*/
   display: flex;
   gap: .5rem;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: space-around;
+  align-items: center;
+  padding: .6rem;
+}
+.priority-section {
+  cursor: pointer;
+}
+.priority-section > label {
+  cursor: pointer;
+}
+.radio {
+  accent-color: var(--light-red);
+  cursor: pointer;
 }
 #submit-task {
   grid-column: 1/-1;

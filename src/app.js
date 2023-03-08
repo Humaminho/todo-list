@@ -100,7 +100,7 @@ function addProjectSelectionEvent() { // ADDING PROJECT SELECTION EVENT
     sectionNodes[i].addEventListener('click', (e) => {
       clearSelected();
       e.currentTarget.classList.add('selected');
-      contentTitle.textContent = e.currentTarget.textContent;
+      contentTitle.textContent = e.currentTarget.textContent.toUpperCase();
     });
   }
 
@@ -159,11 +159,6 @@ function submitTask() { // SUBMITTING TASK !!!!
   }
 }
 
-const submitTaskBtn = document.getElementById('submit-task');
-submitTaskBtn.addEventListener('click', submitTask);
-
-addProjectSelectionEvent();
-
 function renderTasks() { // RENDERING TASKS
 
   tasksEl.innerHTML = "";
@@ -189,5 +184,14 @@ function renderTasks() { // RENDERING TASKS
 }
 
 (function init() {
+  const inbox = document.getElementById('inbox');
+  inbox.classList.toggle('selected');
+  const contentTitle = document.querySelector('.content-title');
+  contentTitle.innerHTML = "INBOX";
   renderTasks();
+
+  const submitTaskBtn = document.getElementById('submit-task');
+  submitTaskBtn.addEventListener('click', submitTask);
+
+  addProjectSelectionEvent();
 })();

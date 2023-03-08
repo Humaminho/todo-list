@@ -13,13 +13,16 @@
   --medium: rgb(255, 245, 100);
   --medium-hover: rgb(255, 245, 100, 0.2);
   --high: rgb(235, 100, 100);
-  --high-hover: rgb(1235, 100, 100, 0.2);
+  --high-hover: rgb(235, 100, 100, 0.2);
 }
 @font-face {
-  font-family: Futuristic;
-  src: url(components/my-components/fonts/Elemental\ End.ttf);
+  font-family: Main;
+  src: url(components/my-components/fonts/Poppins-SemiBold.ttf);
 }
-
+@font-face {
+  font-family: Header;
+  src: url(components/my-components/fonts/Uni\ Sans\ Heavy.otf);
+}
 ::selection {
   background-color: var(--white);
   color: var(--red);
@@ -28,7 +31,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Main ,Verdana, Geneva, Tahoma, sans-serif;
 }
 html {
   height: 100%;
@@ -50,10 +53,14 @@ main {
 header {
   font-weight: bold;
   font-size: 2rem;
-  padding: 1rem;
+  padding-top: 1.8rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+}
+#logo {
+  font-family: Header, Verdana, Geneva, Tahoma, sans-serif;
+  margin-left: 3rem;
 }
 #left-content, #github, #content, #content-container, #task-form {
   background-color: var(--main);
@@ -336,4 +343,19 @@ textarea {
   grid-column: 1/-1;
   align-self: flex-start;
   justify-self: center;
+}
+
+#github {
+  text-decoration: none;
+  color: var(--light);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+#github:hover span {
+  color: rgb(193, 47, 47);
+}
+#github span {
+  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }

@@ -3,7 +3,7 @@ import Task from './task';
 
 const projectsArray = []; // PROJECTS ARRAY
 const allTasks = []; // TASKS
-let currentProject = 0; // CURRENT PROJECT
+let currentProject = null; // CURRENT PROJECT
 const log = console.log;
 const projectsEl = document.getElementById('projects'); // PROJECTS DOM
 const tasksEl = document.getElementById('tasks'); // TASKS DOM
@@ -19,7 +19,7 @@ function createProject(name) { // CREATE PROJECT
   projectsArray.push(project);
 }
 
-function addEventDelete(i) {
+function addEventDelete(i) { // ADDING EVENT LISTENER TO DELETE PROJECT BUTTON
   const deleteProjectBtn = document.querySelector(`[data-index="${i}"]`);
   
   deleteProjectBtn.addEventListener('click', (e) => {
@@ -53,7 +53,6 @@ function renderProjects(projectsArray) { // RENDER PROJECTS
     projectsEl.appendChild(projectEl);
     addEventDelete(i);
   }
-
   addProjectSelectionEvent();
 }
 
@@ -67,7 +66,7 @@ function renderProjects(projectsArray) { // RENDER PROJECTS
   });
 })();
 
-function clearSelected() {
+function clearSelected() { // CLEAR SELECTED CLASS
   const sectionNodes = document.querySelectorAll('.section');
 
   for ( let i = 0; i < sectionNodes.length; i++ ) {
@@ -75,21 +74,32 @@ function clearSelected() {
   }
 }
 
-function addProjectSelectionEvent() {
+function addProjectSelectionEvent() { // ADDING PROJECT SELECTION EVENT
   const projectNodes = document.querySelectorAll('.project');
   const sectionNodes = document.querySelectorAll('.section');
+  const contentTitle = document.querySelector('.content-title');
 
   for ( let i = 0; i < sectionNodes.length; i++ ) {
     sectionNodes[i].addEventListener('click', (e) => {
       clearSelected();
-      e.target.classList.add('selected');
-      const targetIndex = e.target.dataset.projectIndex;
+      e.currentTarget.classList.add('selected');
+      currentProject = null;
+      console.log(contentTitle)
+      contentTitle.textContent = e.currentTarget.textContent;
+    });
+  }
+
+  for ( let i = 0; i < projectNodes.length; i++ ) {
+    projectNodes[i].addEventListener('click', (e) => {
+      const targetIndex = e.currentTarget.dataset.projectIndex;
       currentProject = projectsArray[targetIndex];
-    }, {capture: true});
+      renderTasks(currentProject.tasks);
+      console.log(currentProject);
+    });
   }
 };
 
-function swapSections() {
+function swapSections() { // SWAPPING TASKS AND FORM SECTIONS
   const taskContent = document.getElementById('content');
   const taskForm = document.getElementById('task-form');
 
@@ -100,7 +110,7 @@ function swapSections() {
 const addTaskBtn = document.getElementById('add-task');
 addTaskBtn.addEventListener('click', swapSections);
 
-function submitTask() {
+function submitTask() { // SUBMITTING TASK !!!!
   const taskTitle = document.getElementById('task-title');
   const taskDescription = document.getElementById('task-description');
   const taskDueDate = document.getElementById('task-due-date');
@@ -117,14 +127,21 @@ function submitTask() {
   }
   const task = new Task(taskTitle.value, taskDescription.value, taskDueDate.value, taskPriority, currentProject);
   allTasks.push(task);
-  console.log(task)
-  //currentProject.tasks.push(task);
+  if (currentProject !== null) {
+    currentProject.tasks.push(task);
+  }
   swapSections();
   renderTasks(allTasks);
+
   taskTitle.value = '';
   taskDescription.value = '';
   taskDueDate.value = '';
   taskPriority = '';
+  for (let i = 0; i < radioBtns.length; i++) {
+    if (radioBtns[i].checked) {
+      radioBtns[i].checked = false;
+    }
+  }
 }
 
 const submitTaskBtn = document.getElementById('submit-task');
@@ -132,7 +149,13 @@ submitTaskBtn.addEventListener('click', submitTask);
 
 addProjectSelectionEvent();
 
-function renderTasks(tasks) {
+function renderTasks(tasks) { // RENDERING TASKS
+  if (tasks === undefined) {
+    return;
+  }
+  if (tasks.length === 0) {
+    return;
+  }
   const taskEl = document.createElement('div');
   taskEl.classList.add('task');
   for (let i = 0; i < tasks.length; i++) {
@@ -150,3 +173,4 @@ function renderTasks(tasks) {
   }
   tasksEl.appendChild(taskEl);
 }
+

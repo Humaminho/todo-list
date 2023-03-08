@@ -171,6 +171,12 @@ nav {
   display: flex;
   flex-direction: column;
   gap: .5rem;
+  margin: 1rem 0rem 2rem;
+}
+#no-tasks {
+  align-self: center;
+  font-size: 2rem;
+  color: var(--light-gray);
 }
 .hidden {
   opacity: 0;

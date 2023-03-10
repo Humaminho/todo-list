@@ -1,5 +1,6 @@
 import './styles.css'
 import Task from './task';
+import { format } from '../node_modules/date-fns';
 
 const allProjects = []; // PROJECTS ARRAY
 const allTasks = []; // TASKS
@@ -86,18 +87,18 @@ function addProjectSelectionEvent() { // ADDING PROJECT SELECTION EVENT
   const sectionNodes = document.querySelectorAll('.section');
   const contentTitle = document.querySelector('.content-title');
 
-  const inboxEl = document.getElementById('inbox');
+  const inboxEl = document.getElementById('inbox'); // INBOX SELECT
   inboxEl.addEventListener('click', () => {
     currentSection = allTasks;
     renderTasks();
   });
 
-  const todayEl = document.getElementById('today');
+  const todayEl = document.getElementById('today'); // TODAY SELECT
   todayEl.addEventListener('click', () => {
-    log("today still in construction");
+    todayArray();
   });
 
-  const thisWeekEl = document.getElementById('this-week');
+  const thisWeekEl = document.getElementById('this-week'); // THIS WEEK SELECT
   thisWeekEl.addEventListener('click', () => {
     log("this week still in construction");
   });
@@ -220,6 +221,21 @@ function selectInbox() {
   currentSection = allTasks;
   renderTasks();
 };
+
+function todayArray() {
+  const todayArray = [];
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  const currentDate = format(new Date(year, month, day), 'dd-MM-yyyy')
+
+  console.log(currentDate);
+  for ( let i = 0 ; i < allTasks.length ;  i++ ) {
+    log(allTasks[i].dueDate); // you left here
+  }
+}
+
 
 (function init() {
   selectInbox();

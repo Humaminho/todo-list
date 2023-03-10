@@ -136,7 +136,7 @@ function submitTask() { // SUBMITTING TASK !!!!
       taskPriority = radioBtns[i].value;
     }
   }
-  if (taskTitle.value === '' || taskDescription.value === '' || taskDueDate.value === '' || taskPriority === '') {
+  if (taskTitle.value === '' || taskDueDate.value === '' || taskPriority === '') {
     alert('Please fill all fields');
     return;
   }
@@ -159,24 +159,39 @@ function submitTask() { // SUBMITTING TASK !!!!
   }
 }
 
+function checkTask(e) {
+  const targetIndex = e.target.dataset.index;
+  const targetTask = document.querySelector(`[data-task-index="${targetIndex}"]`)
+  if (currentSection !== allTasks) {
+    const targetName = currentSection[targetIndex].name
+    console.log(targetName);
+    log("im a project");
+  }
+  targetTask.classList.add("checked-task");
+  currentSection.splice(targetIndex, 1);
+  setTimeout(renderTasks, 250);
+}
+
 function renderTasks() { // RENDERING TASKS
 
   tasksEl.innerHTML = "";
   for (let i = 0; i < currentSection.length; i++) {
     const taskEl = document.createElement('div');
     taskEl.classList.add('task');
+    taskEl.dataset.taskIndex = i;
     taskEl.innerHTML = `
-      <div class="check ${currentSection[i].priority}"></div>
+      <div data-index="${i}"class="check ${currentSection[i].priority}"></div>
       <div class="task-title">${currentSection[i].name}</div>
       <div class="time">${currentSection[i].dueDate}</div>
       <svg class="task-info" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
         <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-      </svg>
-      <svg class="remove-task" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
       </svg>`;
       tasksEl.appendChild(taskEl);
+      const checkBtn = taskEl.querySelector('.check');
+      checkBtn.addEventListener('click', (e) => {
+        checkTask(e);
+      });
   }
   if (currentSection.length === 0) {
     tasksEl.innerHTML = `<div id="no-tasks">No tasks here ...</div>`;

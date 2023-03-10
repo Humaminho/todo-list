@@ -27,6 +27,19 @@
   background-color: var(--white);
   color: var(--red);
 }
+::-webkit-scrollbar {
+  width: .8rem;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--light-red);
+}
 * {
   padding: 0;
   margin: 0;
@@ -221,11 +234,18 @@ svg {
   border-radius: 50%;
   background-color: transparent;
   border: 2px solid;
-  transition: all .1s ease-in;
+
+  transition: all .2s ease-in;
 }
 .check:hover {
   background-color: rgb(128, 128, 128);
   cursor: pointer;
+}
+.checked-task {
+  opacity: 0;
+  transform: translate(3rem);
+  text-decoration: line-through;
+  color: var(--border);
 }
 .low {
   border-color: var(--low);
@@ -248,13 +268,13 @@ svg {
 .task-title {
   flex-grow: 1;
 }
-.remove-tast {
-  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
 .remove-task:hover {
   transform: rotate(180deg);
   color: var(--light-red);
   cursor: pointer;
+}
+.task-info {
+  margin-right: 1rem;
 }
 .task-info:hover {
   color: var(--low);
@@ -300,27 +320,27 @@ svg {
   font-size: 1.2rem;
   font-weight: bold;
 }
-input:not(.radio) {
+input:not(.radio), textarea {
   padding: .7rem;
   width: 100%;
   border: none;
   border-radius: 50px;
   background-color: rgb(22, 22, 22);
   text-indent: .5rem;
+  outline: none;
 
   color: var(--light);
   transition: all 0.2s ease-in;
 }
+input:not(.radio):hover, textarea:hover {
+  background-color: var(--border);
+}
+input:not(.radio):focus, textarea:focus {
+  border: 1px solid var(--light-red);
+}
 textarea {
-  padding: .7rem;
-  width: 100%;
-  border: none;
   border-radius: 15px;
-  background-color: rgb(22, 22, 22);
-  text-indent: .5rem;
-
-  color: var(--light);
-  transition: all 0.2s ease-in;
+  resize: none;
 }
 #task-priority { /*CHANGE*/
   display: flex;
@@ -331,6 +351,8 @@ textarea {
 }
 .priority-section {
   cursor: pointer;
+  display: flex;
+  gap: .5rem;
 }
 .priority-section > label {
   cursor: pointer;
@@ -338,6 +360,7 @@ textarea {
 .radio {
   accent-color: var(--light-red);
   cursor: pointer;
+  transform: scale(1.5);
 }
 #submit-task {
   grid-column: 1/-1;

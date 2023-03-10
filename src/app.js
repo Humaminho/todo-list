@@ -1,7 +1,7 @@
 import './styles.css'
 import Task from './task';
 
-const projectsArray = []; // PROJECTS ARRAY
+const allProjects = []; // PROJECTS ARRAY
 const allTasks = []; // TASKS
 let currentSection = allTasks; // CURRENT PROJECT
 const log = console.log;
@@ -16,14 +16,14 @@ class Project {
 
 function createProject(name) { // CREATE PROJECT
   const project = new Project(name);
-  projectsArray.push(project);
+  allProjects.push(project);
 }
 
 
 function renderProjects() { // RENDER PROJECTS
   projectsEl.innerHTML = '';
 
-  for ( let i = 0; i < projectsArray.length; i++  ) {
+  for ( let i = 0; i < allProjects.length; i++  ) {
     const projectEl = document.createElement('div');
     projectEl.classList.add('project');
     projectEl.classList.add('section');
@@ -34,7 +34,7 @@ function renderProjects() { // RENDER PROJECTS
       <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z"/>
       <path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z"/>
     </svg>
-    <p>${projectsArray[i].name}</p>
+    <p>${allProjects[i].name}</p>
     <div class="delete-project" data-index="${i}">
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
     <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
@@ -52,9 +52,12 @@ function addEventDelete(i) { // ADDING EVENT LISTENER TO DELETE PROJECT BUTTON
   
   deleteProjectBtn.addEventListener('click', (e) => {
     const targetIndex = e.target.dataset.index;
-    projectsArray.splice(targetIndex, 1);
+    allProjects.splice(targetIndex, 1);
     renderProjects();
+    selectInbox();
   });
+
+  
 }
 
 (function addProjectBtn() { // ADDING PROJECT BUTTON FUNCTIONNALITY
@@ -62,6 +65,9 @@ function addEventDelete(i) { // ADDING EVENT LISTENER TO DELETE PROJECT BUTTON
   
   addProjectBtn.addEventListener('click', () => {
     const projectName = prompt('Enter project name');
+    if ( projectName === null ) {
+      return;
+    }
     createProject(projectName);
     renderProjects();
   });
@@ -107,8 +113,7 @@ function addProjectSelectionEvent() { // ADDING PROJECT SELECTION EVENT
   for ( let i = 0; i < projectNodes.length; i++ ) {
     projectNodes[i].addEventListener('click', (e) => {
       const targetIndex = e.currentTarget.dataset.projectIndex;
-      currentSection = projectsArray[targetIndex].tasks;
-      console.log(currentSection);
+      currentSection = allProjects[targetIndex].tasks;
       renderTasks();
     });
   }
@@ -159,28 +164,37 @@ function submitTask() { // SUBMITTING TASK !!!!
   }
 }
 
-function checkTask(e) {
-  const targetIndex = e.target.dataset.index;
-  const targetTask = document.querySelector(`[data-task-index="${targetIndex}"]`)
-  if (currentSection !== allTasks) {
-    const targetName = currentSection[targetIndex].name
-    console.log(targetName);
-    log("im a project");
-  }
+function checkTask(e) { // CHECK TASK FUNCTIONALITY
+  const targetTaskName = e.target.dataset.name;
+  const targetTask = document.querySelector(`[data-task-name="${targetTaskName}"]`)
   targetTask.classList.add("checked-task");
-  currentSection.splice(targetIndex, 1);
+
+  for ( let i = 0 ; i < allTasks.length ; i++ ) {
+    if ( allTasks[i].name === targetTaskName ) {
+      allTasks.splice(i, 1);
+    }
+  }
+
+  for ( let i = 0 ; i < allProjects.length ; i++ ) {
+    const projectTasks = allProjects[i].tasks;
+    for ( let i = 0 ; i < projectTasks.length ; i++ ) {
+      if ( projectTasks[i].name === targetTaskName ) {
+        projectTasks.splice(i, 1);
+      }
+    }
+  }
+
   setTimeout(renderTasks, 250);
 }
-
 function renderTasks() { // RENDERING TASKS
 
   tasksEl.innerHTML = "";
   for (let i = 0; i < currentSection.length; i++) {
     const taskEl = document.createElement('div');
     taskEl.classList.add('task');
-    taskEl.dataset.taskIndex = i;
+    taskEl.dataset.taskName = currentSection[i].name;
     taskEl.innerHTML = `
-      <div data-index="${i}"class="check ${currentSection[i].priority}"></div>
+      <div data-name="${currentSection[i].name}" data-index="${i} "class="check ${currentSection[i].priority}"></div>
       <div class="task-title">${currentSection[i].name}</div>
       <div class="time">${currentSection[i].dueDate}</div>
       <svg class="task-info" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
@@ -198,13 +212,17 @@ function renderTasks() { // RENDERING TASKS
   }
 }
 
-(function init() {
+function selectInbox() {
   const inbox = document.getElementById('inbox');
   inbox.classList.toggle('selected');
   const contentTitle = document.querySelector('.content-title');
   contentTitle.innerHTML = "INBOX";
+  currentSection = allTasks;
   renderTasks();
+};
 
+(function init() {
+  selectInbox();
   const submitTaskBtn = document.getElementById('submit-task');
   submitTaskBtn.addEventListener('click', submitTask);
 

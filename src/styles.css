@@ -1,7 +1,9 @@
 :root {
   --background: rgb(2, 2, 2);
-  --main: rgb(16, 16, 16);
+  --main: rgb(13, 13, 13);
   --border: rgb(41, 41, 41);
+  --blue: rgb(24,116,252);
+  --green: rgb(54, 152, 54);
   --light-red: rgb(235, 100, 100);
   --red: rgb(200, 0, 0);
   --light-gray: rgb(60, 60, 60);
@@ -25,7 +27,7 @@
 }
 ::selection {
   background-color: var(--white);
-  color: var(--red);
+  color: black;
 }
 ::-webkit-scrollbar {
   width: .8rem;
@@ -38,7 +40,7 @@
   border-radius: 50px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--light-red);
+  background: var(--green);
 }
 * {
   padding: 0;
@@ -70,10 +72,14 @@ header {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
 }
 #logo {
   font-family: Header, Verdana, Geneva, Tahoma, sans-serif;
   margin-left: 3rem;
+  background: -webkit-linear-gradient(0deg, rgba(24,116,252,1) 0%, rgba(45,152,54,1) 50%, rgba(235,100,100,1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 #left-content, #github, #content, #content-container, #task-form {
   background-color: var(--main);
@@ -155,7 +161,7 @@ nav {
 #add-project {
   align-self: center;
   margin: .8rem;
-  color: var(--light-red);
+  color: var(--green);
   transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
   order: 69;
 }
@@ -286,20 +292,21 @@ svg {
   justify-content: center;
   align-self: center;
   gap: 1rem;
-  padding: .6rem 2rem;
-  background-color: transparent;
-  border: 2px solid var(--light-red);
+  padding: .6rem;
+  width: 10rem;
+  background-color: var(--green);
+  color: var(--white);
+  border: 2px solid var(--green);
   border-radius: 50px;
   font-size: 1.2rem;
   font-weight: bold;
-  color: var(--light-red);
   order: 69;
-
+  
   transition: all 0.2s ease-in;
 }
 .button:hover {
-  background-color: var(--light-red);
-  color: var(--white);
+  background-color: transparent;
+  color: var(--green);
   cursor: pointer;
 }
 
@@ -336,7 +343,7 @@ input:not(.radio):hover, textarea:hover {
   background-color: var(--border);
 }
 input:not(.radio):focus, textarea:focus {
-  border: 1px solid var(--light-red);
+  border: 1px solid var(--blue);
 }
 textarea {
   border-radius: 15px;
@@ -358,14 +365,26 @@ textarea {
   cursor: pointer;
 }
 .radio {
-  accent-color: var(--light-red);
+  accent-color: var(--blue);
   cursor: pointer;
   transform: scale(1.5);
 }
-#submit-task {
+#task-buttons {
   grid-column: 1/-1;
-  align-self: flex-start;
+  display: flex;
+  align-items: center;
   justify-self: center;
+  margin-top: 1rem;
+  gap: 2rem;
+}
+#cancel-task {
+  background-color: transparent;
+  color: var(--light-red);
+  border-color: var(--light-red);
+}
+#cancel-task:hover {
+  background-color: var(--light-red);
+  color: white;
 }
 
 #github {

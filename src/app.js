@@ -143,6 +143,9 @@ function swapSections() { // SWAPPING TASKS AND FORM SECTIONS
 const addTaskBtn = document.getElementById('add-task');
 addTaskBtn.addEventListener('click', swapSections);
 
+const cancelTaskBtn = document.getElementById('cancel-task');
+cancelTaskBtn.addEventListener('click', swapSections);
+
 function submitTask() { // SUBMITTING TASK !!!!
   const taskTitle = document.getElementById('task-title');
   const taskDescription = document.getElementById('task-description');

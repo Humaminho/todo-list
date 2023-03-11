@@ -1,9 +1,11 @@
 import './styles.css'
 import Task from './task';
-import { format } from '../node_modules/date-fns';
+import { format, formatDistanceToNow } from '../node_modules/date-fns';
 
 const allProjects = []; // PROJECTS ARRAY
 const allTasks = []; // TASKS
+let todayTasks = [];
+let thisWeekTasks = [];
 let currentSection = allTasks; // CURRENT PROJECT
 const log = console.log;
 const projectsEl = document.getElementById('projects'); // PROJECTS DOM
@@ -96,11 +98,15 @@ function addProjectSelectionEvent() { // ADDING PROJECT SELECTION EVENT
   const todayEl = document.getElementById('today'); // TODAY SELECT
   todayEl.addEventListener('click', () => {
     todayArray();
+    currentSection = todayTasks;
+    renderTasks();
   });
 
   const thisWeekEl = document.getElementById('this-week'); // THIS WEEK SELECT
   thisWeekEl.addEventListener('click', () => {
-    log("this week still in construction");
+    thisWeekArray();
+    currentSection = thisWeekTasks;
+    renderTasks();
   });
 
   for ( let i = 0; i < sectionNodes.length; i++ ) {
@@ -108,6 +114,10 @@ function addProjectSelectionEvent() { // ADDING PROJECT SELECTION EVENT
       clearSelected();
       e.currentTarget.classList.add('selected');
       contentTitle.textContent = e.currentTarget.textContent.toUpperCase();
+      const contentEl = document.getElementById("content");
+      if( contentEl.classList.contains("hidden") ) {
+        swapSections();
+      }
     });
   }
 
@@ -146,23 +156,27 @@ function submitTask() { // SUBMITTING TASK !!!!
     alert('Please fill all fields');
     return;
   }
-  const task = new Task(taskTitle.value, taskDescription.value, taskDueDate.value, taskPriority, currentSection);
+  const task = new Task(taskTitle.value, taskDescription.value, changeToDefaultFormat(taskDueDate.value), taskPriority, currentSection);
   allTasks.push(task);
-  if (currentSection !== allTasks ) {
+
+  if (currentSection !== allTasks && currentSection !== todayTasks && currentSection !== thisWeekTasks) {
     currentSection.push(task);
   }
-  swapSections();
-  renderTasks();
 
+  swapSections();
+  
   taskTitle.value = '';
   taskDescription.value = '';
   taskDueDate.value = '';
   taskPriority = '';
-  for (let i = 0; i < radioBtns.length; i++) {
+
+  for (let i = 0; i < radioBtns.length; i++) { // uncheck radio btns
     if (radioBtns[i].checked) {
       radioBtns[i].checked = false;
     }
   }
+
+  renderTasks();
 }
 
 function checkTask(e) { // CHECK TASK FUNCTIONALITY
@@ -223,19 +237,44 @@ function selectInbox() {
 };
 
 function todayArray() {
-  const todayArray = [];
+  todayTasks = [];
+
   const date = new Date();
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
-  const currentDate = format(new Date(year, month, day), 'dd-MM-yyyy')
+  const currentDate = format(new Date(year, month, day), 'dd/MM/yyyy');
 
-  console.log(currentDate);
   for ( let i = 0 ; i < allTasks.length ;  i++ ) {
-    log(allTasks[i].dueDate); // you left here
+    if ( allTasks[i].dueDate === currentDate) {
+      todayTasks.push(allTasks[i]);
+    }
   }
 }
 
+function thisWeekArray() {
+  thisWeekTasks = [];
+  
+  for ( let i = 0 ; i < allTasks.length ; i++ ) {
+    const taskDate =  changeToFnsFormat(allTasks[i].dueDate);
+    const distance = formatDistanceToNow(taskDate);
+    if ( distance === '6 days') {
+      thisWeekTasks.push(allTasks[i]);
+    }
+  }
+}
+
+function changeToDefaultFormat(date) {
+  const dateArray = date.split("-")
+  const dateFormated = dateArray[2] + '/' + dateArray[1] + '/' + dateArray[0];
+  return dateFormated;
+}
+
+function changeToFnsFormat(date) {
+  const dateArray = date.split("/")
+  const fnsFormat = new Date(dateArray[2], dateArray[1]-1, dateArray[0])
+  return fnsFormat;
+}
 
 (function init() {
   selectInbox();

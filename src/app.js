@@ -109,7 +109,7 @@ function addProjectSelectionEvent() { // ADDING PROJECT SELECTION EVENT
     renderTasks();
   });
 
-  for ( let i = 0; i < sectionNodes.length; i++ ) {
+  for ( let i = 0; i < sectionNodes.length; i++ ) { // all section addEvent
     sectionNodes[i].addEventListener('click', (e) => {
       clearSelected();
       e.currentTarget.classList.add('selected');
@@ -121,10 +121,12 @@ function addProjectSelectionEvent() { // ADDING PROJECT SELECTION EVENT
     });
   }
 
-  for ( let i = 0; i < projectNodes.length; i++ ) {
+  for ( let i = 0; i < projectNodes.length; i++ ) { // project addEvent
     projectNodes[i].addEventListener('click', (e) => {
       const targetIndex = e.currentTarget.dataset.projectIndex;
-      currentSection = allProjects[targetIndex].tasks;
+      if (allProjects[targetIndex] !== undefined ) {
+        currentSection = allProjects[targetIndex].tasks;
+      }
       renderTasks();
     });
   }

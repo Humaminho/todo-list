@@ -162,7 +162,7 @@ function submitTask() { // SUBMITTING TASK !!!!
     alert('Please fill all fields');
     return;
   }
-  const task = new Task(taskTitle.value, taskDescription.value, changeToDefaultFormat(taskDueDate.value), taskPriority, currentSection);
+  const task = new Task(taskTitle.value, taskDescription.value, changeToDefaultFormat(taskDueDate.value), taskPriority);
   allTasks.push(task);
 
   if (currentSection !== allTasks && currentSection !== todayTasks && currentSection !== thisWeekTasks) {
@@ -284,21 +284,31 @@ function changeToFnsFormat(date) {
 }
 
 (function init() {
+  initLocalStorage();
+  getData();
   selectInbox();
   const submitTaskBtn = document.getElementById('submit-task');
   submitTaskBtn.addEventListener('click', submitTask);
 
   addProjectSelectionEvent();
+  renderProjects();
 })();
 
 function saveToLocalStorage() {
-  
+  localStorage.setItem("allTasks", JSON.stringify(allTasks));
+  localStorage.setItem("allProjects", JSON.stringify(allProjects));
 }
 
 function getData() {
-
+  allTasks = JSON.parse(localStorage.getItem("allTasks"))
+  allProjects = JSON.parse(localStorage.getItem("allProjects"))
 }
 
 function initLocalStorage() {
-
+  if ( localStorage.getItem("allTasks") === "" ) {
+    localStorage.setItem("allTasks", JSON.stringify(allTasks));
+  }
+  if ( localStorage.getItem("allProjects") === "" ) {
+    localStorage.setItem("allProjects", JSON.stringify(allProjects));
+  }
 }

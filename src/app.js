@@ -2,8 +2,8 @@ import './styles.css'
 import Task from './task';
 import { format, formatDistanceToNow } from '../node_modules/date-fns';
 
-const allProjects = []; // PROJECTS ARRAY
-const allTasks = []; // TASKS
+let allProjects = []; // PROJECTS ARRAY
+let allTasks = []; // TASKS
 let todayTasks = [];
 let thisWeekTasks = [];
 let currentSection = allTasks; // CURRENT PROJECT
@@ -48,6 +48,7 @@ function renderProjects() { // RENDER PROJECTS
     addEventDelete(i);
   }
   addProjectSelectionEvent();
+  saveToLocalStorage();
 }
 
 function addEventDelete(i) { // ADDING EVENT LISTENER TO DELETE PROJECT BUTTON
@@ -230,6 +231,7 @@ function renderTasks() { // RENDERING TASKS
   if (currentSection.length === 0) {
     tasksEl.innerHTML = `<div id="no-tasks">No tasks here ...</div>`;
   }
+  saveToLocalStorage();
 }
 
 function selectInbox() {
@@ -288,3 +290,15 @@ function changeToFnsFormat(date) {
 
   addProjectSelectionEvent();
 })();
+
+function saveToLocalStorage() {
+  
+}
+
+function getData() {
+
+}
+
+function initLocalStorage() {
+
+}

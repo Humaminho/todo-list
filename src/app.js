@@ -98,14 +98,14 @@ function addProjectSelectionEvent() { // ADDING PROJECT SELECTION EVENT
 
   const todayEl = document.getElementById('today'); // TODAY SELECT
   todayEl.addEventListener('click', () => {
-    todayArray();
+    updateTodayTasks();
     currentSection = todayTasks;
     renderTasks();
   });
 
   const thisWeekEl = document.getElementById('this-week'); // THIS WEEK SELECT
   thisWeekEl.addEventListener('click', () => {
-    thisWeekArray();
+    updateWeekTasks();
     currentSection = thisWeekTasks;
     renderTasks();
   });
@@ -181,8 +181,7 @@ function submitTask() { // SUBMITTING TASK !!!!
       radioBtns[i].checked = false;
     }
   }
-  todayArray();
-  thisWeekArray();
+  
   renderTasks();
 }
 
@@ -210,6 +209,8 @@ function checkTask(e) { // CHECK TASK FUNCTIONALITY
 }
 function renderTasks() { // RENDERING TASKS
 
+  log(allTasks);
+  log(currentSection);
   tasksEl.innerHTML = "";
   for (let i = 0; i < currentSection.length; i++) {
     const taskEl = document.createElement('div');
@@ -244,9 +245,9 @@ function selectInbox() {
   renderTasks();
 };
 
-function todayArray() {
+function updateTodayTasks() { //HERE HERE HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   todayTasks = [];
-
+  
   const date = new Date();
   const year = date.getFullYear();
   const month = date.getMonth();
@@ -258,9 +259,10 @@ function todayArray() {
       todayTasks.push(allTasks[i]);
     }
   }
+
 }
 
-function thisWeekArray() {
+function updateWeekTasks() {
   thisWeekTasks = [];
   
   for ( let i = 0 ; i < allTasks.length ; i++ ) {

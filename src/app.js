@@ -181,7 +181,8 @@ function submitTask() { // SUBMITTING TASK !!!!
       radioBtns[i].checked = false;
     }
   }
-
+  todayArray();
+  thisWeekArray();
   renderTasks();
 }
 

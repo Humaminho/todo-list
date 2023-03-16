@@ -2,14 +2,14 @@ import './styles.css'
 import Task from './task';
 import { format, formatDistanceToNow, differenceInCalendarWeeks as differenceInWeeks } from '../node_modules/date-fns';
 
-let allProjects = []; // PROJECTS ARRAY
-let allTasks = []; // TASKS
+let allProjects = [];
+let allTasks = [];
 let todayTasks = [];
 let thisWeekTasks = [];
-let currentSection = allTasks; // CURRENT PROJECT
+let currentSection = allTasks;
 const log = console.log;
-const projectsEl = document.getElementById('projects'); // PROJECTS DOM
-const tasksEl = document.getElementById('tasks'); // TASKS DOM
+const projectsEl = document.getElementById('projects');
+const tasksEl = document.getElementById('tasks');
 class Project {
   constructor(name) {
     this.name = name;
@@ -17,13 +17,13 @@ class Project {
   } 
 }
 
-function createProject(name) { // CREATE PROJECT
+function createProject(name) {
   const project = new Project(name);
   allProjects.push(project);
 }
 
 
-function renderProjects() { // RENDER PROJECTS
+function renderProjects() {
   projectsEl.innerHTML = '';
 
   for ( let i = 0; i < allProjects.length; i++  ) {
@@ -51,7 +51,7 @@ function renderProjects() { // RENDER PROJECTS
   saveToLocalStorage();
 }
 
-function addEventDelete(i) { // ADDING EVENT LISTENER TO DELETE PROJECT BUTTON
+function addEventDelete(i) {
   const deleteProjectBtn = document.querySelector(`[data-index="${i}"]`);
   
   deleteProjectBtn.addEventListener('click', (e) => {
@@ -382,7 +382,7 @@ function initLocalStorage() {
 
 (function addProjectBtn() {
   const addProjectBtn = document.getElementById('add-project');
-  
+  currentSection = allTasks;
   addProjectBtn.addEventListener('click', () => {
     const projectName = prompt('Enter project name');
     if ( projectName === null ) {

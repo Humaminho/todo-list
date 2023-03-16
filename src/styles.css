@@ -147,6 +147,7 @@ nav {
   flex-direction: column;
   gap: .5rem;
   overflow-y: scroll;
+  overflow-x: hidden;
   max-height: 190px;
 }
 .section:hover {
@@ -206,6 +207,7 @@ nav {
   margin: 1rem 0rem 2rem;
   max-height: 340px;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 #no-tasks {
   align-self: center;

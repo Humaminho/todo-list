@@ -238,7 +238,6 @@ function showInfo(e) {
 
 function expand(element, e) {
   const task = currentSection[e.currentTarget.dataset.index];
-  log(task);
   element.innerHTML = "";
   element.innerHTML = `
     <div class="descrip">Name: </div>
@@ -253,15 +252,17 @@ function expand(element, e) {
   const closeBtn = element.querySelector('.task-info');
   closeBtn.addEventListener('click', () => {
     element.classList.remove('expanded');
-    setTimeout(renderTasks, 250);
+    element.innerHTML = "";
+    setTimeout(renderTasks, 200);
   });
   closeBtn.classList.add('close-btn');
   element.classList.add('expanded');
 }
 
-function renderTasks() { // RENDERING TASKS
+function renderTasks() {
 
   tasksEl.innerHTML = "";
+  log(currentSection);
   for (let i = 0; i < currentSection.length; i++) {
     const taskEl = document.createElement('div');
     taskEl.classList.add('task');
@@ -344,23 +345,23 @@ function saveToLocalStorage() {
 }
 
 function getData() {
-  allTasks = JSON.parse(localStorage.getItem("allTasks"))
-  allProjects = JSON.parse(localStorage.getItem("allProjects"))
-  todayTasks = JSON.parse(localStorage.getItem("todayTasks"))
-  thisWeekTasks = JSON.parse(localStorage.getItem("thisWeekTasks"))
+  allTasks = JSON.parse(localStorage.getItem("allTasks"));
+  allProjects = JSON.parse(localStorage.getItem("allProjects"));
+  todayTasks = JSON.parse(localStorage.getItem("todayTasks"));
+  thisWeekTasks = JSON.parse(localStorage.getItem("thisWeekTasks"));
 }
 
 function initLocalStorage() {
-  if ( localStorage.getItem("allTasks") === "" ) {
+  if ( localStorage.getItem("allTasks") === null ) {
     localStorage.setItem("allTasks", JSON.stringify(allTasks));
   }
-  if ( localStorage.getItem("allProjects") === "" ) {
+  if ( localStorage.getItem("allProjects") === null ) {
     localStorage.setItem("allProjects", JSON.stringify(allProjects));
   }
-  if ( localStorage.getItem("todayTasks") === "" ) {
+  if ( localStorage.getItem("todayTasks") === null ) {
     localStorage.setItem("todayTasks", JSON.stringify(todayTasks));
   }
-  if ( localStorage.getItem("thisWeekTasks") === "" ) {
+  if ( localStorage.getItem("thisWeekTasks") === null ) {
     localStorage.setItem("thisWeekTasks", JSON.stringify(thisWeekTasks));
   }
 }
@@ -369,6 +370,7 @@ function initLocalStorage() {
   initLocalStorage();
   getData();
   selectInbox();
+  currentSection = allTasks;
   const submitTaskBtn = document.getElementById('submit-task');
   submitTaskBtn.addEventListener('click', submitTask);
   const addTaskBtn = document.getElementById('add-task');
@@ -382,7 +384,7 @@ function initLocalStorage() {
 
 (function addProjectBtn() {
   const addProjectBtn = document.getElementById('add-project');
-  currentSection = allTasks;
+  
   addProjectBtn.addEventListener('click', () => {
     const projectName = prompt('Enter project name');
     if ( projectName === null ) {

@@ -262,7 +262,6 @@ function expand(element, e) {
 function renderTasks() {
 
   tasksEl.innerHTML = "";
-  log(currentSection);
   for (let i = 0; i < currentSection.length; i++) {
     const taskEl = document.createElement('div');
     taskEl.classList.add('task');
@@ -387,7 +386,7 @@ function initLocalStorage() {
   
   addProjectBtn.addEventListener('click', () => {
     const projectName = prompt('Enter project name');
-    if ( projectName === null ) {
+    if ( projectName === null || projectName === "" ) {
       return;
     }
     createProject(projectName);

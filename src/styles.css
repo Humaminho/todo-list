@@ -146,7 +146,7 @@ nav {
   display: flex;
   flex-direction: column;
   gap: .5rem;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   max-height: 190px;
 }
@@ -206,7 +206,7 @@ nav {
   gap: .5rem;
   margin: 1rem 0rem 2rem;
   max-height: 340px;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 #no-tasks {
@@ -416,8 +416,10 @@ textarea {
 
 .expanded {
   display: grid;
-  height: 130px;
-  grid-template-columns: 120px 300px;
+  align-items: flex-start;
+  height: 160px;
+  max-height: 500px;
+  grid-template-columns: 120px 1fr;
   padding-left: 1.5rem;
 }
 
@@ -435,4 +437,11 @@ textarea {
   color: rgb(190, 190, 190);
   font-weight: 100;
   font-size: .9rem;
+}
+
+.task-description {
+  margin-right: 3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

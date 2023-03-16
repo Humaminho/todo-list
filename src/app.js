@@ -178,6 +178,9 @@ function submitTask() { // SUBMITTING TASK !!!!
     alert('Please fill all fields');
     return;
   }
+  if (taskDescription.value === '') {
+    taskDescription.value = 'None';
+  }
   const task = new Task(taskTitle.value, taskDescription.value, changeToDefaultFormat(taskDueDate.value), taskPriority);
 
   allTasks.push(task);
@@ -227,17 +230,26 @@ function showInfo(e) {
 }
 
 function expand(element, e) {
-  const task = currentSection[e.target.dataset.index];
+  const task = currentSection[e.currentTarget.dataset.index];
   log(task);
   element.innerHTML = "";
   element.innerHTML = `
-      <div class="task-title">${task.name}</div>
-      <div class="time">${task.dueDate}</div>
-      <svg class="task-info" data-info="${task.name}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-      </svg>
-  `
+    <div class="descrip">Name: </div>
+    <div class="task-title">${task.name}</div>
+    <div class="descrip">Description: </div>
+    <div class="task-description">${task.description}</div>
+    <div class="descrip">Due date: </div>
+    <div class="time">${task.dueDate}</div>
+    <svg xmlns="http://www.w3.org/2000/svg" class="task-info" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+    </svg>`
+  const closeBtn = element.querySelector('.task-info');
+  closeBtn.addEventListener('click', () => {
+    element.classList.remove('expanded');
+    setTimeout(renderTasks, 250);
+  });
+  closeBtn.classList.add('close-btn');
+  element.classList.add('expanded');
 }
 
 function renderTasks() { // RENDERING TASKS

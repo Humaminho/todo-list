@@ -9,7 +9,8 @@
   --light-gray: rgb(60, 60, 60);
   --light: rgb(231, 231, 231);
   --white: rgb(255, 255, 255);
-  --border-radius: 35px;
+  --border-radius: 10px;
+  --main-border: 5px;
   --low: rgb(57, 255, 84);
   --low-hover: rgb(57, 255, 84, 0.2);
   --medium: rgb(255, 245, 100);
@@ -36,11 +37,12 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
+  width: .7rem;
   background: var(--border);
-  border-radius: 50px;
+  border-radius: var(--main-border);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--green);
+  background: var(--blue);
 }
 * {
   padding: 0;
@@ -63,20 +65,22 @@ main {
   display: flex;
   height: 100%;
   padding: 1.5rem;
+  padding-top: .8rem;
   gap: 1.5rem;
 }
 header {
   font-weight: bold;
-  font-size: 2rem;
-  padding-top: 1.8rem;
+  font-size: 1.5rem;
+  padding-top: 1rem;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-
 }
 #logo {
   font-family: Header, Verdana, Geneva, Tahoma, sans-serif;
   margin-left: 3rem;
+  padding-top: 5px;
+  line-height: 22px;
   background: -webkit-linear-gradient(0deg, rgba(24,116,252,1) 0%, rgba(45,152,54,1) 50%, rgba(235,100,100,1) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -122,9 +126,9 @@ nav {
   gap: .5rem;
 }
 .nav-title {
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: var(--white);
-  margin-bottom: 1rem;
+  margin-bottom: .8rem;
 }
 .section {
   display: flex;
@@ -133,7 +137,7 @@ nav {
   gap: 1rem;
 
   border: 1px solid var(--light-gray);
-  border-radius: 50px;
+  border-radius: var(--main-border);
   padding: 0.6rem 1rem;
 
   transition: all 0.2s ease-in;
@@ -142,6 +146,8 @@ nav {
   display: flex;
   flex-direction: column;
   gap: .5rem;
+  overflow-y: scroll;
+  max-height: 190px;
 }
 .section:hover {
   color: var(--white);
@@ -160,7 +166,7 @@ nav {
 }
 #add-project {
   align-self: center;
-  margin: .8rem;
+  margin: .5rem;
   color: var(--green);
   transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
   order: 69;
@@ -198,6 +204,8 @@ nav {
   flex-direction: column;
   gap: .5rem;
   margin: 1rem 0rem 2rem;
+  max-height: 340px;
+  overflow-y: scroll;
 }
 #no-tasks {
   align-self: center;
@@ -221,13 +229,15 @@ svg {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  position: relative;
   gap: 1rem;
   padding: .6rem .7rem;
   width: 100%;
-  border-radius: 50px;
+  border-radius: var(--main-border);
   background-color: rgb(22, 22, 22);
 
   color: var(--light);
+  height: 44.5px;
   transition: all 0.2s ease-in;
 }
 .task:hover {
@@ -297,7 +307,7 @@ svg {
   background-color: var(--green);
   color: var(--white);
   border: 2px solid var(--green);
-  border-radius: 50px;
+  border-radius: var(--main-border);
   font-size: 1.2rem;
   font-weight: bold;
   order: 69;
@@ -331,7 +341,7 @@ input:not(.radio), textarea {
   padding: .7rem;
   width: 100%;
   border: none;
-  border-radius: 50px;
+  border-radius: var(--main-border);
   background-color: rgb(22, 22, 22);
   text-indent: .5rem;
   outline: none;
@@ -346,7 +356,7 @@ input:not(.radio):focus, textarea:focus {
   border: 1px solid var(--blue);
 }
 textarea {
-  border-radius: 15px;
+  border-radius: 5px;
   resize: none;
 }
 #task-priority { /*CHANGE*/
@@ -400,4 +410,27 @@ textarea {
 }
 #github span {
   transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.expanded {
+  display: grid;
+  height: 130px;
+  grid-template-columns: 120px 300px;
+  padding-left: 1.5rem;
+}
+
+.close-btn {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  margin: 0;
+}
+.close-btn:hover {
+  color: var(--light-red);
+}
+
+.descrip {
+  color: rgb(190, 190, 190);
+  font-weight: 100;
+  font-size: .9rem;
 }

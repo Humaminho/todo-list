@@ -1,6 +1,6 @@
 import './styles.css'
 import Task from './task';
-import { format, formatDistanceToNow } from '../node_modules/date-fns';
+import { format, formatDistanceToNow, differenceInCalendarWeeks as differenceInWeeks } from '../node_modules/date-fns';
 
 let allProjects = []; // PROJECTS ARRAY
 let allTasks = []; // TASKS
@@ -185,8 +185,9 @@ function submitTask() { // SUBMITTING TASK !!!!
 
   allTasks.push(task);
   checkIfToday(task);
+  checkIfThisWeek(task);
 
-  if (currentSection !== allTasks && currentSection !== todayTasks) {
+  if (currentSection !== allTasks && currentSection !== todayTasks && currentSection !== thisWeekTasks) {
     currentSection.push(task);
   }
 
@@ -208,6 +209,12 @@ function checkTask(e) { // CHECK TASK FUNCTIONALITY
   for ( let i = 0 ; i < todayTasks.length ; i++ ) {
     if ( todayTasks[i].name === targetTaskName) {
       todayTasks.splice(i, 1);
+    }
+  }
+
+  for ( let i = 0 ; i < thisWeekTasks.length ; i++ ) {
+    if ( thisWeekTasks[i].name === targetTaskName) {
+      thisWeekTasks.splice(i, 1);
     }
   }
 
@@ -298,6 +305,14 @@ function checkIfToday(task) {
   }
 }
 
+function checkIfThisWeek(task) {
+  const thisDay = changeToFnsFormat(getCurrentDate());
+  const taskDay = changeToFnsFormat(task.dueDate);
+  if (differenceInWeeks(taskDay, thisDay) === 0) {
+    thisWeekTasks.push(task);
+  }
+}
+
 function getCurrentDate() {
   const date = new Date();
   const year = date.getFullYear();
@@ -306,18 +321,6 @@ function getCurrentDate() {
   const currentDate = format(new Date(year, month, day), 'dd/MM/yyyy');
   return currentDate;
 }
-
-// function updateWeekTasks() {
-//   thisWeekTasks = [];
-  
-//   for ( let i = 0 ; i < allTasks.length ; i++ ) {
-//     const taskDate =  changeToFnsFormat(allTasks[i].dueDate);
-//     const distance = formatDistanceToNow(taskDate);
-//     if ( distance === '6 days') {
-//       thisWeekTasks.push(allTasks[i]);
-//     }
-//   }
-// }
 
 function changeToDefaultFormat(date) {
   const dateArray = date.split("-")
@@ -337,12 +340,14 @@ function saveToLocalStorage() {
   localStorage.setItem("allTasks", JSON.stringify(allTasks));
   localStorage.setItem("allProjects", JSON.stringify(allProjects));
   localStorage.setItem("todayTasks", JSON.stringify(todayTasks));
+  localStorage.setItem("thisWeekTasks", JSON.stringify(thisWeekTasks));
 }
 
 function getData() {
   allTasks = JSON.parse(localStorage.getItem("allTasks"))
   allProjects = JSON.parse(localStorage.getItem("allProjects"))
   todayTasks = JSON.parse(localStorage.getItem("todayTasks"))
+  thisWeekTasks = JSON.parse(localStorage.getItem("thisWeekTasks"))
 }
 
 function initLocalStorage() {
@@ -354,6 +359,9 @@ function initLocalStorage() {
   }
   if ( localStorage.getItem("todayTasks") === "" ) {
     localStorage.setItem("todayTasks", JSON.stringify(todayTasks));
+  }
+  if ( localStorage.getItem("thisWeekTasks") === "" ) {
+    localStorage.setItem("thisWeekTasks", JSON.stringify(thisWeekTasks));
   }
 }
 

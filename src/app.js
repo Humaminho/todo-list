@@ -56,25 +56,25 @@ function addEventDelete(i) { // ADDING EVENT LISTENER TO DELETE PROJECT BUTTON
   
   deleteProjectBtn.addEventListener('click', (e) => {
     const targetIndex = e.currentTarget.dataset.index;
-    clearDeletedProjectTasks(allProjects[targetIndex]);
+    const targetArray = allProjects[targetIndex].tasks;
+    clearDeletedProjectTasks(targetArray);
     allProjects.splice(targetIndex, 1);
     selectInbox();
     renderProjects();
   });
-
 }
 
 function clearDeletedProjectTasks(targetProject) {
   for ( let i = 0 ; i < targetProject.length ; i++) {
-    for ( let i = 0 ; i < allTasks.length ; i++ ) {
-      if ( allTasks[i].name === targetProject[i].name ) {
-      allTasks.splice(i, 1);
+    for ( let x = 0 ; x < allTasks.length ; x++ ) {
+      if ( allTasks[x].name === targetProject[i].name ) {
+        allTasks.splice(x, 1);
       }
     }
 
-    for ( let i = 0 ; i < todayTasks.length ; i++ ) {
-      if ( todayTasks[i].name === targetProject[i].name) {
-        todayTasks.splice(i, 1);
+    for ( let x = 0 ; x < todayTasks.length ; x++ ) {
+      if ( todayTasks[x].name === targetProject[i].name ) {
+        todayTasks.splice(x, 1);
       }
     }
   }
@@ -122,7 +122,7 @@ function addProjectSelectionEvent() { // ADDING PROJECT SELECTION EVENT
       if( contentEl.classList.contains("hidden") ) {
         swapSections();
       }
-    });
+    }, {capture: true});
   }
 
   for ( let i = 0; i < projectNodes.length; i++ ) { // project addEvent
@@ -137,18 +137,31 @@ function addProjectSelectionEvent() { // ADDING PROJECT SELECTION EVENT
 };
 
 function swapSections() { // SWAPPING TASKS AND FORM SECTIONS
+
+  const taskTitle = document.getElementById('task-title');
+  const taskDescription = document.getElementById('task-description');
+  const taskDueDate = document.getElementById('task-due-date');
+  const radioBtns = document.querySelectorAll('input[type="radio"]');
+  let taskPriority = '';
   const taskContent = document.getElementById('content');
   const taskForm = document.getElementById('task-form');
+
+  taskTitle.value = '';
+  taskDescription.value = '';
+  taskDueDate.value = '';
+  taskPriority = '';
+
+  for (let i = 0; i < radioBtns.length; i++) { // uncheck radio btns
+    if (radioBtns[i].checked) {
+      radioBtns[i].checked = false;
+    }
+  }
 
   taskContent.classList.toggle('hidden');
   taskForm.classList.toggle('hidden');
 }
 
-const addTaskBtn = document.getElementById('add-task');
-addTaskBtn.addEventListener('click', swapSections);
 
-const cancelTaskBtn = document.getElementById('cancel-task');
-cancelTaskBtn.addEventListener('click', swapSections);
 
 function submitTask() { // SUBMITTING TASK !!!!
   const taskTitle = document.getElementById('task-title');
@@ -175,18 +188,6 @@ function submitTask() { // SUBMITTING TASK !!!!
   }
 
   swapSections();
-  
-  taskTitle.value = '';
-  taskDescription.value = '';
-  taskDueDate.value = '';
-  taskPriority = '';
-
-  for (let i = 0; i < radioBtns.length; i++) { // uncheck radio btns
-    if (radioBtns[i].checked) {
-      radioBtns[i].checked = false;
-    }
-  }
-  
   renderTasks();
 }
 
@@ -218,6 +219,27 @@ function checkTask(e) { // CHECK TASK FUNCTIONALITY
 
   setTimeout(renderTasks, 250);
 }
+
+function showInfo(e) {
+  const targetTask = e.currentTarget.dataset.info;
+  const targetEl = document.querySelector(`[data-task-name="${targetTask}"]`)
+  expand(targetEl, e);
+}
+
+function expand(element, e) {
+  const task = currentSection[e.target.dataset.index];
+  log(task);
+  element.innerHTML = "";
+  element.innerHTML = `
+      <div class="task-title">${task.name}</div>
+      <div class="time">${task.dueDate}</div>
+      <svg class="task-info" data-info="${task.name}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+      </svg>
+  `
+}
+
 function renderTasks() { // RENDERING TASKS
 
   tasksEl.innerHTML = "";
@@ -226,10 +248,10 @@ function renderTasks() { // RENDERING TASKS
     taskEl.classList.add('task');
     taskEl.dataset.taskName = currentSection[i].name;
     taskEl.innerHTML = `
-      <div data-name="${currentSection[i].name}" data-index="${i} "class="check ${currentSection[i].priority}"></div>
+      <div data-name="${currentSection[i].name}" data-index="${i}" class="check ${currentSection[i].priority}"></div>
       <div class="task-title">${currentSection[i].name}</div>
       <div class="time">${currentSection[i].dueDate}</div>
-      <svg class="task-info" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+      <svg class="task-info" data-info="${currentSection[i].name}" data-index="${i}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
         <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
       </svg>`;
@@ -238,6 +260,10 @@ function renderTasks() { // RENDERING TASKS
       checkBtn.addEventListener('click', (e) => {
         checkTask(e);
       });
+      const infoBtn = taskEl.querySelector('.task-info');
+      infoBtn.addEventListener('click', (e) => {
+        showInfo(e);
+      })
   }
   if (currentSection.length === 0) {
     tasksEl.innerHTML = `<div id="no-tasks">No tasks here ...</div>`;
@@ -325,6 +351,10 @@ function initLocalStorage() {
   selectInbox();
   const submitTaskBtn = document.getElementById('submit-task');
   submitTaskBtn.addEventListener('click', submitTask);
+  const addTaskBtn = document.getElementById('add-task');
+  addTaskBtn.addEventListener('click', swapSections);
+  const cancelTaskBtn = document.getElementById('cancel-task');
+  cancelTaskBtn.addEventListener('click', swapSections);
 
   addProjectSelectionEvent();
   renderProjects();
